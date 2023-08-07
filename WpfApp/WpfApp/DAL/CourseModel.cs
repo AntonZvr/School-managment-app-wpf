@@ -15,6 +15,6 @@ namespace WpfApp.DAL
         public string NAME { get; set; }
         public string DESCRIPTION { get; set; }
 
-        public virtual ICollection<GroupModel> Groups { get; set; }
+        
     }
 }
