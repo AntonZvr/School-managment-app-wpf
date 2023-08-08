@@ -1,9 +1,10 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using WpfApp.ViewModels;
 
 namespace WpfApp
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : Page
     {
         private CourseViewModel _courseViewModel;
         private GroupViewModel _groupViewModel;
