@@ -24,12 +24,12 @@ namespace WpfApp
             InitializeComponent();
         }
 
-        private void ButtonClick1(object sender, RoutedEventArgs e)
+        private void ButtonClick2(object sender, RoutedEventArgs e)
         {
             Main.Content = new SecondPage();
         }
 
-        private void ButtonClick2(object sender, RoutedEventArgs e)
+        private void ButtonClick1(object sender, RoutedEventArgs e)
         {
             Main.Content = new MainWindow();
         }

@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp"
         mc:Ignorable="d"
-        Title="TabBarView" Height="450" Width="800">
+        Title="TabBarView" Height="650" Width="800">
     <Grid>
         <StackPanel Orientation="Horizontal" Height="35" VerticalAlignment="Top">
-            <Button Content="Page 2" Click="ButtonClick1"></Button>
-            <Button Content="Page 3" Click="ButtonClick2"></Button>
+            <Button Content="Main Page" Click="ButtonClick1"></Button>
+            <Button Content="Groups Page" Click="ButtonClick2"></Button>
         </StackPanel>
-        <Frame x:Name="Main" Margin="0,80,0,0" NavigationUIVisibility="Hidden"/>
+        <Frame x:Name="Main" Margin="0,30,0,0" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

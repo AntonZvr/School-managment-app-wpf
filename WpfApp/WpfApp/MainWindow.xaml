@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Course View" Height="650" Width="600">
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0, 85, 0, 0">
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0, 30, 0, 0">
             <ListView x:Name="CourseListView" ItemsSource="{Binding Courses}" SelectedItem="{Binding SelectedCourse}">
                 <ListView.View>
                     <GridView>
