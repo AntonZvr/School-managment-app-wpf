@@ -6,46 +6,45 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using WpfApp.DAL;
 using WpfApp.Repositories;
 
 namespace WpfApp.ViewModels
 {
-    public class CourseViewModel : INotifyPropertyChanged
+    public class GroupViewModel : INotifyPropertyChanged
     {
-        private readonly CourseRepository _courseRepository = new CourseRepository();
+        private readonly GroupRepository _groupRepository = new GroupRepository();
 
-        private List<CourseModel> _courses;
-        public List<CourseModel> Courses
+        private ObservableCollection<GroupModel> _groups;
+        public ObservableCollection<GroupModel> Groups
         {
-            get { return _courses; }
+            get { return _groups; }
             set
             {
-                _courses = value;
+                _groups = value;
                 OnPropertyChanged();
             }
         }
 
-        private CourseModel _selectedCourse;
-        public CourseModel SelectedCourse
+        private GroupModel _selectedGroup;
+        public GroupModel SelectedGroup
         {
-            get { return _selectedCourse; }
+            get { return _selectedGroup; }
             set
             {
-                _selectedCourse = value;
+                _selectedGroup = value;
                 OnPropertyChanged();
             }
         }
 
-        public CourseViewModel()
+        public GroupViewModel(int courseId)
         {
-            LoadCourses();
+            LoadGroups(courseId);
         }
 
-        private void LoadCourses()
+        private void LoadGroups(int courseId)
         {
-            Courses = _courseRepository.GetCourses();
+            Groups = _groupRepository.GetGroups(courseId);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

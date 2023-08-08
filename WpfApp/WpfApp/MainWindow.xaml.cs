@@ -1,30 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
 using WpfApp.ViewModels;
 
 namespace WpfApp
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        private CourseViewModel _courseViewModel;
+        private GroupViewModel _groupViewModel;
+        private StudentViewModel _studentViewModel;
+
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new CourseViewModel();
+
+            _courseViewModel = new CourseViewModel();
+            CourseListView.DataContext = _courseViewModel;
+
+            _courseViewModel.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName == "SelectedCourse")
+                {
+                    _groupViewModel = new GroupViewModel(_courseViewModel.SelectedCourse.COURSE_ID);
+                    GroupListView.DataContext = _groupViewModel;
+
+                    _groupViewModel.PropertyChanged += (sender, args) =>
+                    {
+                        if (args.PropertyName == "SelectedGroup")
+                        {
+                            _studentViewModel = new StudentViewModel(_groupViewModel.SelectedGroup.GROUP_ID);
+                            StudentListView.DataContext = _studentViewModel;
+                        }
+                    };
+                }
+            };
         }
     }
 }

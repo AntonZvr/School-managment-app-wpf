@@ -7,32 +7,37 @@
         mc:Ignorable="d"
         Title="Course View" Height="650" Width="600">
     <Grid>
-        <ListView ItemsSource="{Binding Courses}" SelectedItem="{Binding SelectedCourse}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding NAME}" />
-                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding DESCRIPTION}" />
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <ScrollViewer VerticalScrollBarVisibility="Visible">
+            <ListView x:Name="CourseListView" ItemsSource="{Binding Courses}" SelectedItem="{Binding SelectedCourse}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding NAME}" />
+                        <GridViewColumn Header="Description" DisplayMemberBinding="{Binding DESCRIPTION}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </ScrollViewer>
 
-        <ListView ItemsSource="{Binding Groups}" SelectedItem="{Binding SelectedGroup}" Margin="0,210,0,0">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,270,0,0">
+            <ListView x:Name="GroupListView" ItemsSource="{Binding Groups}" SelectedItem="{Binding SelectedGroup}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding NAME}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </ScrollViewer>
 
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding NAME}" />
-                </GridView>
-            </ListView.View>
-        </ListView>
-
-        <ListView ItemsSource="{Binding Students}" Margin="0,420,0,0">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding FIRST_NAME}" />
-                    <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding LAST_NAME}" />
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,420,0,0">
+            <ListView x:Name="StudentListView" ItemsSource="{Binding Students}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding FIRST_NAME}" />
+                        <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding LAST_NAME}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </ScrollViewer>
 
     </Grid>
 </Window>
