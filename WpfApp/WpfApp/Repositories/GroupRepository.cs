@@ -25,15 +25,47 @@ namespace WpfApp.Repositories
             return new ObservableCollection<GroupModel>(_context.Groups.ToList());
         }
 
-        public void CreateGroup(string groupName)
+        public void CreateGroup(string groupName, int courseId)
         {          
             GroupModel newGroup = new GroupModel
             {
-                NAME = groupName                
+                NAME = groupName, 
+                COURSE_ID = courseId            
             };
 
             _context.Groups.Add(newGroup);   
             _context.SaveChanges();
         }
+
+        public void ChangeGroupName(int groupId, string newGroupName)
+        {
+            GroupModel group = _context.Groups.FirstOrDefault(g => g.GROUP_ID == groupId);
+            if (group != null)
+            {
+                group.NAME = newGroupName;
+                _context.SaveChanges();
+            }
+        }
+
+        public bool HasStudents(int groupId)
+        {
+            return _context.Students.Any(s => s.GROUP_ID == groupId);
+        }
+
+        public void DeleteGroup(int groupId)
+        {
+            GroupModel group = _context.Groups.FirstOrDefault(g => g.GROUP_ID == groupId);
+            if (group != null)
+            {
+                _context.Groups.Remove(group);
+                _context.SaveChanges();
+            }
+        }
+
+        public CourseModel FindCourseById(int courseId)
+        {
+            return _context.Courses.FirstOrDefault(c => c.COURSE_ID == courseId);
+        }
+
     }
 }

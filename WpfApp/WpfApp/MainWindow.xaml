@@ -11,6 +11,7 @@
             <ListView x:Name="CourseListView" ItemsSource="{Binding Courses}" SelectedItem="{Binding SelectedCourse}">
                 <ListView.View>
                     <GridView>
+                        <GridViewColumn Header="Id" DisplayMemberBinding="{Binding COURSE_ID}" />
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding NAME}" />
                         <GridViewColumn Header="Description" DisplayMemberBinding="{Binding DESCRIPTION}" />
                     </GridView>

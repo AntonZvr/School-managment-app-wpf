@@ -37,6 +37,11 @@ namespace WpfApp.ViewModels
             }
         }
 
+        public GroupViewModel()
+        {
+            LoadAllGroups();
+        }
+
         public GroupViewModel(int courseId)
         {
             LoadGroups(courseId);
@@ -50,6 +55,43 @@ namespace WpfApp.ViewModels
         public void LoadAllGroups() 
         {
             Groups = _groupRepository.GetAllGroups();
+        }
+
+        public event Action GroupAdded = delegate { };
+
+        public bool TryAddGroup(int courseId, string groupName)
+        {
+            CourseModel course = _groupRepository.FindCourseById(courseId);
+            if (course == null)
+            {
+                return false;
+            }
+            _groupRepository.CreateGroup(groupName, course.COURSE_ID);
+
+            // Notify UI
+            GroupAdded.Invoke();
+
+            return true;
+
+        }
+
+        public void ChangeGroupName(int groupId, string newGroupName)
+        {
+            _groupRepository.ChangeGroupName(groupId, newGroupName);
+        }
+
+        public bool DeleteGroup(int groupId)
+        {
+            bool hasStudents = _groupRepository.HasStudents(groupId);
+            if (hasStudents)
+            {
+                return false;
+            }
+            else
+            {
+                _groupRepository.DeleteGroup(groupId);
+                return true;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
