@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp.ViewModels;
 
 namespace WpfApp
 {
@@ -22,6 +23,7 @@ namespace WpfApp
         public SecondPage()
         {
             InitializeComponent();
+            DataContext = new GroupViewModel(1);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -47,6 +47,11 @@ namespace WpfApp.ViewModels
             Groups = _groupRepository.GetGroups(courseId);
         }
 
+        public void LoadAllGroups() 
+        {
+            Groups = _groupRepository.GetAllGroups();
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

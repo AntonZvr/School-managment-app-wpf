@@ -20,6 +20,11 @@ namespace WpfApp.Repositories
             return new ObservableCollection<GroupModel>(_context.Groups.Where(g => g.COURSE_ID == courseId).ToList());
         }
 
+        public ObservableCollection<GroupModel> GetAllGroups() 
+        {
+            return new ObservableCollection<GroupModel>(_context.Groups.ToList());
+        }
+
         public void CreateGroup(string groupName)
         {          
             GroupModel newGroup = new GroupModel
