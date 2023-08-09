@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using WpfApp.DAL;
 using WpfApp.Repositories;
 
@@ -40,11 +41,14 @@ namespace WpfApp.ViewModels
         public GroupViewModel()
         {
             LoadAllGroups();
+            TeacherRepository = new TeacherRepository();
+            LoadAllTeachers();
         }
 
         public GroupViewModel(int courseId)
         {
             LoadGroups(courseId);
+            TeacherRepository = new TeacherRepository();
         }
 
         private void LoadGroups(int courseId)
@@ -93,6 +97,24 @@ namespace WpfApp.ViewModels
                 return true;
             }
         }
+
+        private ObservableCollection<TeacherModel> _teachers;
+        public ObservableCollection<TeacherModel> Teachers
+        {
+            get { return _teachers; }
+            set
+            {
+                _teachers = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public void LoadAllTeachers()
+        {
+            Teachers = TeacherRepository.GetAllTeachers();
+        }
+
+        public TeacherRepository TeacherRepository { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -6,32 +6,60 @@
       mc:Ignorable="d"
         d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <StackPanel Margin="20">
-            <TextBlock Text="Enter Course Id:"/>
-            <TextBox x:Name="CourseIdTextBox"/>
-            <TextBlock Text="Enter Group Name:"/>
-            <TextBox x:Name="GroupNameTextBox"/>
-            <Button Content="Add" Click="Button_Click"/>
-            <TextBlock Text="Choose group and enter new name:"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="GroupNewNameTextBox" Width="200" />
-                <Button x:Name="SaveButton" Content="Save" Click="SaveButton_Click" />
-            </StackPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,20,0,0">
+            <StackPanel Margin="20">
+                <TextBlock Text="Enter Course Id:"/>
+                <TextBox x:Name="CourseIdTextBox"/>
+                <TextBlock Text="Enter Group Name:"/>
+                <TextBox x:Name="GroupNameTextBox"/>
+                <Button Content="Add" Click="Button_Click"/>
+                <TextBlock Text="Choose group and enter new name:"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="GroupNewNameTextBox" Width="200" />
+                    <Button x:Name="SaveButton" Content="Save" Click="SaveButton_Click" />
+                </StackPanel>
 
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,20,0,0">
-                <ListView ItemsSource="{Binding Groups}" Margin="0,50,0,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,20,0,0">
+                    <ListView ItemsSource="{Binding Groups}" Margin="0,50,0,0">
+                        <ListView.View>
+                            <GridView>
+                                <!-- Group Name Column -->
+                                <GridViewColumn Header="Id/Name">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding GROUP_ID}" Margin="0,0,10,0"/>
+                                                <TextBlock Text="{Binding NAME}" />
+                                                <Button Content="Change name" Click="EditButton_Click" Tag="{Binding GROUP_ID}" />
+                                                <Button Content="Delete" Click="DeleteButton_Click" Tag="{Binding GROUP_ID}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                </ScrollViewer>
+
+                <!-- Add this where you want the list of teachers and their groups -->
+                <ListView ItemsSource="{Binding TeacherRepository.Teachers}">
                     <ListView.View>
                         <GridView>
-                            <!-- Group Name Column -->
-                            <GridViewColumn Header="Id/Name">
+                            <GridViewColumn Header="Teacher Id" DisplayMemberBinding="{Binding Teacher_Id}"/>
+                            <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding FirstName}"/>
+                            <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding LastName}"/>
+                            <GridViewColumn Header="Group" DisplayMemberBinding="{Binding Group.NAME}"/>
+                            <!-- Add buttons for editing and removing the group from the teacher -->
+                            <GridViewColumn Header="Actions">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding GROUP_ID}" Margin="0,0,10,0"/>
-                                            <TextBlock Text="{Binding NAME}" />
-                                            <Button Content="Change name" Click="EditButton_Click" Tag="{Binding GROUP_ID}" />
-                                            <Button Content="Delete" Click="DeleteButton_Click" Tag="{Binding GROUP_ID}" />
+                                        <StackPanel>
+                                            <!-- The Tag property is used to pass the teacher's id to the button click event -->
+                                            <TextBlock Text="Enter new group id for teacher:"/>
+                                            <TextBox x:Name="NewGroupIdTextBox" Width="50" />
+                                            <Button Content="Change Group" Click="EditTeacherGroup_Click" Tag="{Binding Teacher_Id}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -40,8 +68,7 @@
                     </ListView.View>
                 </ListView>
 
-
-            </ScrollViewer>
-        </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

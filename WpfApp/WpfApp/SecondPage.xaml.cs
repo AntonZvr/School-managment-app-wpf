@@ -31,7 +31,7 @@ namespace WpfApp
             if (DataContext is GroupViewModel viewModel)
             {
                 int courseId = 0; // Default value for courseId
-                string groupName = string.Empty; // Default value for groupName
+                string groupName = "Default name"; // Default value for groupName
 
                 if (!string.IsNullOrEmpty(CourseIdTextBox.Text))
                 {
@@ -54,8 +54,6 @@ namespace WpfApp
                     GroupNameTextBox.Clear();
                 }
             }
-
-
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
@@ -98,6 +96,31 @@ namespace WpfApp
             }
         }
 
+        private void EditTeacherGroup_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is int teacherId)
+            {
+                // Get the parent StackPanel
+                var stackPanel = (StackPanel)button.Parent;
 
+                // Find the TextBox in the StackPanel
+                var textBox = (TextBox)stackPanel.Children.OfType<TextBox>().First();
+
+                // Get the new group ID from the TextBox
+                int groupId = int.Parse(textBox.Text);
+
+                if (DataContext is GroupViewModel viewModel && viewModel.TeacherRepository.ChangeTeacherGroup(teacherId, groupId))
+                {
+                    MessageBox.Show("Changed!");
+                    textBox.Clear();
+                    viewModel.LoadAllTeachers();
+                }
+                else 
+                {
+                    MessageBox.Show("No group with this group id");
+                    textBox.Clear();
+                }
+            }
+        }
     }
 }
