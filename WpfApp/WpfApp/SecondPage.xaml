@@ -33,6 +33,8 @@
                                                 <TextBlock Text="{Binding NAME}" />
                                                 <Button Content="Change name" Click="EditButton_Click" Tag="{Binding GROUP_ID}" />
                                                 <Button Content="Delete" Click="DeleteButton_Click" Tag="{Binding GROUP_ID}" />
+                                                <Button Content="Export to CSV" Click="ExportButton_Click" Tag ="{Binding GROUP_ID}" Margin="0,10,10,0"/>
+                                                <Button Content="Import from CSV" Click="ImportButton_Click" Tag ="{Binding GROUP_ID}" Margin="0,10,10,0"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -50,7 +52,7 @@
                             <GridViewColumn Header="Teacher Id" DisplayMemberBinding="{Binding Teacher_Id}"/>
                             <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding FirstName}"/>
                             <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding LastName}"/>
-                            <GridViewColumn Header="Group" DisplayMemberBinding="{Binding Group.NAME}"/>
+                            <GridViewColumn Header="Group" DisplayMemberBinding="{Binding Group_Id}"/>
                             <!-- Add buttons for editing and removing the group from the teacher -->
                             <GridViewColumn Header="Actions">
                                 <GridViewColumn.CellTemplate>

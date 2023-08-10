@@ -39,17 +39,19 @@ namespace WpfApp.Repositories
                 GroupModel group = _context.Groups.FirstOrDefault(g => g.GROUP_ID == groupId);
                 if (group != null)
                 {
+                    // Manually change the GroupId property of the teacher
                     teacher.Group_Id = groupId;
                     _context.SaveChanges();
                     return true;
                 }
-                else 
+                else
                 {
                     return false;
                 }
             }
             return false;
         }
+
 
     }
 }

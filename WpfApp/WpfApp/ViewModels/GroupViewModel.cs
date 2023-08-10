@@ -122,6 +122,17 @@ namespace WpfApp.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public void ExportGroup(int groupId, string filePath)
+        {
+            _groupRepository.ExportStudents(groupId, filePath);
+        }
+
+        public void ImportGroup(int groupId, string filePath)
+        {
+            _groupRepository.ImportStudents(groupId, filePath);
+        }
+
     }
 
 }

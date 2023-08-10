@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using WpfApp.DAL;
 using WpfApp.Repositories;
 
@@ -14,12 +10,16 @@ namespace WpfApp.ViewModels
     public class TeacherViewModel : INotifyPropertyChanged
     {
         private readonly TeacherRepository _teacherRepository = new TeacherRepository();
-
         private ObservableCollection<TeacherModel> _teachers;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected void RaisePropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -30,7 +30,7 @@ namespace WpfApp.ViewModels
             set
             {
                 _teachers = value;
-                OnPropertyChanged();
+                RaisePropertyChanged(nameof(Teachers));
             }
         }
 
@@ -39,12 +39,9 @@ namespace WpfApp.ViewModels
             LoadAllTeachers();
         }
 
-        private void LoadAllTeachers()
+        public void LoadAllTeachers()
         {
             Teachers = _teacherRepository.GetAllTeachers();
         }
-       
     }
-
-
 }

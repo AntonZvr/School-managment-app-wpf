@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using WpfApp.ViewModels;
 
 namespace WpfApp
@@ -90,7 +92,7 @@ namespace WpfApp
                     }
                     else 
                     {
-                        viewModel.LoadAllGroups();                    
+                        viewModel.LoadAllGroups();                   
                     }
                 }
             }
@@ -107,7 +109,8 @@ namespace WpfApp
                 var textBox = (TextBox)stackPanel.Children.OfType<TextBox>().First();
 
                 // Get the new group ID from the TextBox
-                int groupId = int.Parse(textBox.Text);
+                int groupId = 0; // Default value for groupId
+                int.TryParse(textBox.Text, out groupId);
 
                 if (DataContext is GroupViewModel viewModel && viewModel.TeacherRepository.ChangeTeacherGroup(teacherId, groupId))
                 {
@@ -115,12 +118,49 @@ namespace WpfApp
                     textBox.Clear();
                     viewModel.LoadAllTeachers();
                 }
-                else 
+                else
                 {
                     MessageBox.Show("No group with this group id");
                     textBox.Clear();
                 }
             }
+
         }
+        private void ExportButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is GroupViewModel viewModel)
+            {
+                if (sender is Button button && button.Tag is int groupId)
+                {
+                    SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    saveFileDialog.Filter = "CSV files (*.csv)|*.csv";
+                    if (saveFileDialog.ShowDialog() == true)
+                    {
+                        string filePath = saveFileDialog.FileName;
+
+                        viewModel.ExportGroup(groupId, filePath);
+                    }
+                }
+            }
+        }
+
+        private void ImportButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is GroupViewModel viewModel)
+            {
+                if (sender is Button button && button.Tag is int groupId)
+                {
+                    OpenFileDialog openFileDialog = new OpenFileDialog();
+                    openFileDialog.Filter = "CSV files (*.csv)|*.csv";
+                    if (openFileDialog.ShowDialog() == true)
+                    {
+                        string filePath = openFileDialog.FileName;
+
+                        viewModel.ImportGroup(groupId, filePath);
+                    }
+                }
+            }
+        }
+
     }
 }

@@ -1,6 +1,9 @@
-﻿using System;
+﻿using CsvHelper;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,6 +69,43 @@ namespace WpfApp.Repositories
         {
             return _context.Courses.FirstOrDefault(c => c.COURSE_ID == courseId);
         }
+
+        public void ExportStudents(int groupId, string filePath)
+        {
+            var students = _context.Students.Where(s => s.GROUP_ID == groupId).ToList();
+
+            using (var writer = new StreamWriter(filePath))
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csv.WriteRecords(students.Select(s => new { s.STUDENT_ID, s.GROUP_ID, s.FIRST_NAME, s.LAST_NAME }));
+            }
+        }
+
+        public void ImportStudents(int groupId, string filePath)
+        {
+            // Clear the group first
+            var studentsInGroup = _context.Students.Where(s => s.GROUP_ID == groupId);
+            _context.Students.RemoveRange(studentsInGroup);
+
+            using (var reader = new StreamReader(filePath))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                var records = csv.GetRecords<dynamic>();
+                foreach (var record in records)
+                {
+                    var student = new StudentModel
+                    {                      
+                        GROUP_ID = groupId,
+                        FIRST_NAME = record.FIRST_NAME,
+                        LAST_NAME = record.LAST_NAME                      
+                    };
+                    _context.Students.Add(student);
+                    _context.SaveChanges();
+                }
+            }
+            _context.SaveChanges();
+        }
+
 
     }
 }
