@@ -105,7 +105,5 @@ namespace WpfApp.Repositories
             }
             _context.SaveChanges();
         }
-
-
     }
 }

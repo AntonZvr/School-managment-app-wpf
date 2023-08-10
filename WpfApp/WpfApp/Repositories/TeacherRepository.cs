@@ -19,14 +19,14 @@ namespace WpfApp.Repositories
 
         public ObservableCollection<TeacherModel> GetAllTeachers()
         {
-            return new ObservableCollection<TeacherModel>(_context.Teachers.Include(t => t.Group).ToList());
+            return new ObservableCollection<TeacherModel>(_context.Teachers.ToList());
         }
 
         public ObservableCollection<TeacherModel> Teachers
         {
             get
             {
-                return new ObservableCollection<TeacherModel>(_context.Teachers.Include(t => t.Group).ToList());
+                return new ObservableCollection<TeacherModel>(_context.Teachers.ToList());
             }
         }
 
