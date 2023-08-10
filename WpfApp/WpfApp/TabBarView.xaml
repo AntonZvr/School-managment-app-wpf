@@ -10,6 +10,7 @@
         <StackPanel Orientation="Horizontal" Height="35" VerticalAlignment="Top">
             <Button Content="Main Page" Click="ButtonClick1"></Button>
             <Button Content="Groups Page" Click="ButtonClick2"></Button>
+            <Button Content="Students Page" Click="ButtonClick3"></Button>
         </StackPanel>
         <Frame x:Name="Main" Margin="0,30,0,0" NavigationUIVisibility="Hidden"/>
     </Grid>

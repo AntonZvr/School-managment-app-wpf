@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WpfApp.DAL;
 
 namespace WpfApp.Repositories
@@ -15,9 +11,28 @@ namespace WpfApp.Repositories
         {
             _context = new AppDbContext();
         }
+
         public ObservableCollection<StudentModel> GetStudents(int groupId)
         {
             return new ObservableCollection<StudentModel>(_context.Students.Where(s => s.GROUP_ID == groupId).ToList());
+        }
+
+        public ObservableCollection<StudentModel> GetAllStudents()
+        {
+            return new ObservableCollection<StudentModel>(_context.Students.ToList());
+        }
+
+       
+
+        public void ChangeStudentName(int studentId, string newFirstName, string newLastname)
+        {
+            StudentModel student = _context.Students.FirstOrDefault(s => s.STUDENT_ID == studentId);
+            if (student != null)
+            {
+                student.FIRST_NAME = newFirstName;
+                student.LAST_NAME = newLastname;             
+                _context.SaveChanges();
+            }
         }
     }
 }

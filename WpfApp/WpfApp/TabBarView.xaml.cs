@@ -33,5 +33,10 @@ namespace WpfApp
         {
             Main.Content = new MainWindow();
         }
+
+        private void ButtonClick3(object sender, RoutedEventArgs e)
+        {
+            Main.Content = new StudentsPage();
+        }
     }
 }
