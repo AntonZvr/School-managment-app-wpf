@@ -22,8 +22,6 @@ namespace WpfApp.Repositories
             return new ObservableCollection<StudentModel>(_context.Students.ToList());
         }
 
-       
-
         public void ChangeStudentName(int studentId, string newFirstName, string newLastname)
         {
             StudentModel student = _context.Students.FirstOrDefault(s => s.STUDENT_ID == studentId);

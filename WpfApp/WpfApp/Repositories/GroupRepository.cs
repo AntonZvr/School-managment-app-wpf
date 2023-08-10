@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using WpfApp.DAL;
 
 namespace WpfApp.Repositories
@@ -77,33 +78,41 @@ namespace WpfApp.Repositories
             using (var writer = new StreamWriter(filePath))
             using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
             {
-                csv.WriteRecords(students.Select(s => new { s.STUDENT_ID, s.GROUP_ID, s.FIRST_NAME, s.LAST_NAME }));
+                csv.WriteRecords(students.Select(s => new { s.GROUP_ID, s.FIRST_NAME, s.LAST_NAME }));
             }
         }
 
         public void ImportStudents(int groupId, string filePath)
         {
-            // Clear the group first
-            var studentsInGroup = _context.Students.Where(s => s.GROUP_ID == groupId);
-            _context.Students.RemoveRange(studentsInGroup);
-
-            using (var reader = new StreamReader(filePath))
-            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            try
             {
-                var records = csv.GetRecords<dynamic>();
-                foreach (var record in records)
+                // Clear the group first
+                var studentsInGroup = _context.Students.Where(s => s.GROUP_ID == groupId);
+                _context.Students.RemoveRange(studentsInGroup);
+
+                using (var reader = new StreamReader(filePath))
+                using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
                 {
-                    var student = new StudentModel
-                    {                      
-                        GROUP_ID = groupId,
-                        FIRST_NAME = record.FIRST_NAME,
-                        LAST_NAME = record.LAST_NAME                      
-                    };
-                    _context.Students.Add(student);
-                    _context.SaveChanges();
+                    var records = csv.GetRecords<dynamic>();
+                    foreach (var record in records)
+                    {
+                        var student = new StudentModel
+                        {
+                            GROUP_ID = groupId,
+                            FIRST_NAME = record.FIRST_NAME,
+                            LAST_NAME = record.LAST_NAME
+                        };
+                        _context.Students.Add(student);
+                        _context.SaveChanges();
+                    }
                 }
+                _context.SaveChanges();
             }
-            _context.SaveChanges();
+            catch (Exception ex)
+            {
+                // Handle the exception and show an error message to the user
+                MessageBox.Show($"An error occurred while importing students: {ex.Message}");
+            }
         }
     }
 }
