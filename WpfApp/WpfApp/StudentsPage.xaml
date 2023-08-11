@@ -16,7 +16,7 @@
                 <TextBlock Text="Enter First Name and Last Name:"/>
                 <TextBox x:Name="StudentFirstNameTextBox" Margin="0,0,0,5" />
                 <TextBox x:Name="StudentLastNameTextBox"/>
-                <Button Content="Add" Click="Button_Click"/>
+                <Button Content="Add new student" Click="Button_Click"/>
                 <TextBlock Text="Choose student and enter new first name and last name:"/>
                 <StackPanel Orientation="Horizontal">
                     <TextBox x:Name="StudentNewFirstNameTextBox" Width="200" />
