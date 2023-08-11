@@ -38,5 +38,10 @@ namespace WpfApp
         {
             Main.Content = new StudentsPage();
         }
+
+        private void ButtonClick4(object sender, RoutedEventArgs e)
+        {
+            Main.Content = new TeachersPage();
+        }
     }
 }

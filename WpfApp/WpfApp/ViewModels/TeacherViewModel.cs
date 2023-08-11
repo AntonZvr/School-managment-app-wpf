@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -11,13 +12,6 @@ namespace WpfApp.ViewModels
     {
         private readonly TeacherRepository _teacherRepository = new TeacherRepository();
         private ObservableCollection<TeacherModel> _teachers;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         protected void RaisePropertyChanged(string propertyName)
         {
@@ -42,6 +36,41 @@ namespace WpfApp.ViewModels
         public void LoadAllTeachers()
         {
             Teachers = _teacherRepository.GetAllTeachers();
+        }
+
+        public void ChangeTeacherName(int teacherId, string newFirstName, string newLastName)
+        {
+            _teacherRepository.ChangeTeacherName(teacherId, newFirstName, newLastName);
+        }
+
+        public event Action TeacherAdded = delegate { };
+
+        public bool TryAddTeacher(int groupId, string teacherFirstName, string teacherLastName)
+        {
+            GroupModel group = _teacherRepository.FindGroupById(groupId);
+            if (group == null)
+            {
+                return false;
+            }
+            _teacherRepository.CreateTeacher(teacherFirstName, teacherLastName, group.GROUP_ID);
+
+            // Notify UI
+            TeacherAdded.Invoke();
+
+            return true;
+
+        }
+
+        public void DeleteTeacher(int teacherId)
+        {
+            _teacherRepository.DeleteTeacher(teacherId);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

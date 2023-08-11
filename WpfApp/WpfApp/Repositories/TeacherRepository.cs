@@ -30,6 +30,11 @@ namespace WpfApp.Repositories
             }
         }
 
+        public GroupModel FindGroupById(int groupId)
+        {
+            return _context.Groups.FirstOrDefault(c => c.GROUP_ID == groupId);
+        }
+
         public bool ChangeTeacherGroup(int teacherId, int groupId)
         {
             TeacherModel teacher = _context.Teachers.FirstOrDefault(t => t.Teacher_Id == teacherId);
@@ -54,5 +59,49 @@ namespace WpfApp.Repositories
             }
             return false;
         }
+
+        public void ChangeTeacherName(int teacherId, string newFirstName, string newLastname)
+        {
+            TeacherModel teacher = _context.Teachers.FirstOrDefault(t => t.Teacher_Id == teacherId);
+            if (teacher != null)
+            {
+                teacher.FirstName = newFirstName;
+                teacher.LastName = newLastname;
+                _context.SaveChanges();
+            }
+        }
+
+        public void CreateTeacher(string teacherFirstName, string teacherLastName, int groupId)
+        {
+            TeacherModel newTeacher = new TeacherModel
+            {
+                Group_Id = groupId,
+                FirstName = teacherFirstName,
+                LastName = teacherLastName
+            };
+
+            _context.Teachers.Add(newTeacher);
+            _context.SaveChanges();
+        }
+
+        public bool DeleteTeacher(int teacherId)
+        {
+            TeacherModel teacher = _context.Teachers.FirstOrDefault(t => t.Teacher_Id == teacherId);
+            if (teacher != null)
+            {
+                // Count how many teachers belong to the current group of the teacher
+                int numberTeachersInGroup = _context.Teachers.Count(t => t.Group_Id == teacher.Group_Id);
+                if (numberTeachersInGroup <= 1)
+                {
+                    throw new InvalidOperationException("Cannot delete a teacher who is the only one in their group.");
+                }
+
+                _context.Teachers.Remove(teacher);
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
     }
 }
