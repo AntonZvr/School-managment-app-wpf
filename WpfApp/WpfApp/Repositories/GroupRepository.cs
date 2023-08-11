@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using WpfApp.DAL;
+using SautinSoft.PdfVision;
 
 namespace WpfApp.Repositories
 {
@@ -138,6 +139,31 @@ namespace WpfApp.Repositories
 
             // Save the document to the specified file path
             docx.Save(folderPath, new DocxSaveOptions());
+        }
+
+        public void ExportGroupToPdf(string folderPath, GroupModel group, CourseModel course, List<StudentModel> students)
+        {
+            // Create a new PDF document
+            DocumentCore pdf = new DocumentCore();
+
+            // Create a new section
+            Section section = new Section(pdf);
+            pdf.Sections.Add(section);
+
+            // Add the course name and group name to the document
+            section.Blocks.Add(new Paragraph(pdf, new Run(pdf, "Course Name: " + course.NAME, new CharacterFormat() { Size = 14, Bold = true })));
+            section.Blocks.Add(new Paragraph(pdf, new Run(pdf, "Group Name: " + group.NAME, new CharacterFormat() { Size = 14, Bold = true })));
+            section.Blocks.Add(new Paragraph(pdf, new SpecialCharacter(pdf, SpecialCharacterType.LineBreak)));
+
+            // Add a numbered list of students
+            for (int i = 0; i < students.Count; i++)
+            {
+                section.Blocks.Add(new Paragraph(pdf, new Run(pdf, (i + 1).ToString() + ". " + students[i].FIRST_NAME + " " + students[i].LAST_NAME, new CharacterFormat() { Size = 12 })));
+            }
+
+            // Save the PDF document to the specified file path
+            
+            pdf.Save(folderPath, new PdfSaveOptions());
         }
     }
 }

@@ -36,6 +36,7 @@
                                                 <Button Content="Export to CSV" Click="ExportButton_Click" Tag ="{Binding GROUP_ID}"/>
                                                 <Button Content="Import from CSV" Click="ImportButton_Click" Tag ="{Binding GROUP_ID}"/>
                                                 <Button Content="Create DOCX" Click="ExportGroupDetailsButton_Click" Tag ="{Binding GROUP_ID}"/>
+                                                <Button Content="Create PDF" Click="ExportPDFGroupDetailsButton_Click" Tag ="{Binding GROUP_ID}"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>

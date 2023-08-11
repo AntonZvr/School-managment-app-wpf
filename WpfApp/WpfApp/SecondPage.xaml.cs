@@ -192,5 +192,30 @@ namespace WpfApp
             }
         }
 
+        private void ExportPDFGroupDetailsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is GroupViewModel viewModel)
+            {
+                if (sender is Button button && button.Tag is int groupId)
+                {
+                    SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    saveFileDialog.Filter = "PDF files (*.pdf)|*.pdf";
+
+                    var group = viewModel.FindGroupById(groupId);
+                    var course = viewModel.GetCourseById(group.COURSE_ID);
+
+                    string defaultFileName = course.NAME + "_" + group.NAME + ".pdf";
+                    saveFileDialog.FileName = defaultFileName;
+
+                    if (saveFileDialog.ShowDialog() == true)
+                    {
+                        string filePath = saveFileDialog.FileName;
+
+                        viewModel.ExportGroupDetailsToPdf(groupId, filePath);
+                    }
+                }
+            }
+        }
+
     }
 }

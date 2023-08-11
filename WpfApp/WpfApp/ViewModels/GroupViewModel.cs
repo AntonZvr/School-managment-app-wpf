@@ -154,5 +154,16 @@ namespace WpfApp.ViewModels
             var students = _studentRepository.GetStudents(groupId).ToList();
             _groupRepository.ExportGroupToDocx(folderPath, group, course, students);
         }
+
+        public void ExportGroupDetailsToPdf(int groupId, string folderPath)
+        {
+            var _studentRepository = new StudentRepository();
+
+            var group = _studentRepository.FindGroupById(groupId);
+            var course = _groupRepository.FindCourseById(group.COURSE_ID);
+            var students = _studentRepository.GetStudents(groupId).ToList();
+            _groupRepository.ExportGroupToPdf(folderPath, group, course, students);
+        }
+
     }
 }
