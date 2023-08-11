@@ -161,7 +161,14 @@ namespace WpfApp
                     {
                         string filePath = openFileDialog.FileName;
 
-                        viewModel.ImportGroup(groupId, filePath);
+                        try
+                        {
+                            viewModel.ImportGroup(groupId, filePath);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"An error occurred while importing students: {ex.Message}");
+                        }
                     }
                 }
             }
@@ -216,6 +223,5 @@ namespace WpfApp
                 }
             }
         }
-
     }
 }

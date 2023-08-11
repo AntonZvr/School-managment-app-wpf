@@ -9,7 +9,7 @@ using WpfApp.DAL;
 
 namespace WpfApp.Repositories
 {
-    public class TeacherRepository
+    public class TeacherRepository : ITeacherRepository
     {
         private readonly AppDbContext _context;
         public TeacherRepository()

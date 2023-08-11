@@ -7,7 +7,7 @@ using WpfApp.DAL;
 
 namespace WpfApp.Repositories
 {
-    public class CourseRepository
+    public class CourseRepository : ICourseRepository
     {
         private readonly AppDbContext _context;
         public CourseRepository()

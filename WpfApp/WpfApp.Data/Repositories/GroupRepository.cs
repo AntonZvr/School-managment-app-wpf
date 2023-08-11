@@ -11,10 +11,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using WpfApp.DAL;
 using SautinSoft.PdfVision;
+using Xceed.Wpf.Toolkit;
 
 namespace WpfApp.Repositories
 {
-    public class GroupRepository
+    public class GroupRepository : IGroupRepository
     {
         private readonly AppDbContext _context;
         public GroupRepository()
@@ -91,35 +92,27 @@ namespace WpfApp.Repositories
 
         public void ImportStudents(int groupId, string filePath)
         {
-            try
-            {
-                // Clear the group first
-                var studentsInGroup = _context.Students.Where(s => s.GROUP_ID == groupId);
-                _context.Students.RemoveRange(studentsInGroup);
+            // Clear the group first
+            var studentsInGroup = _context.Students.Where(s => s.GROUP_ID == groupId);
+            _context.Students.RemoveRange(studentsInGroup);
 
-                using (var reader = new StreamReader(filePath))
-                using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-                {
-                    var records = csv.GetRecords<dynamic>();
-                    foreach (var record in records)
-                    {
-                        var student = new StudentModel
-                        {
-                            GROUP_ID = groupId,
-                            FIRST_NAME = record.FIRST_NAME,
-                            LAST_NAME = record.LAST_NAME
-                        };
-                        _context.Students.Add(student);
-                        _context.SaveChanges();
-                    }
-                }
-                _context.SaveChanges();
-            }
-            catch (Exception ex)
+            using (var reader = new StreamReader(filePath))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
-                // Handle the exception and show an error message to the user
-                MessageBox.Show($"An error occurred while importing students: {ex.Message}");
+                var records = csv.GetRecords<dynamic>();
+                foreach (var record in records)
+                {
+                    var student = new StudentModel
+                    {
+                        GROUP_ID = groupId,
+                        FIRST_NAME = record.FIRST_NAME,
+                        LAST_NAME = record.LAST_NAME
+                    };
+                    _context.Students.Add(student);
+                    _context.SaveChanges();
+                }
             }
+            _context.SaveChanges();
         }
 
         public void ExportGroupToDocx(string folderPath, GroupModel group, CourseModel course, List<StudentModel> students)
