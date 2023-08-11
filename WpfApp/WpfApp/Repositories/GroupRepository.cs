@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using SautinSoft.Document;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,6 +28,11 @@ namespace WpfApp.Repositories
         public ObservableCollection<GroupModel> GetAllGroups() 
         {
             return new ObservableCollection<GroupModel>(_context.Groups.ToList());
+        }
+
+        public GroupModel FindGroupById(int groupId)
+        {
+            return _context.Groups.FirstOrDefault(c => c.GROUP_ID == groupId);
         }
 
         public void CreateGroup(string groupName, int courseId)
@@ -113,6 +119,25 @@ namespace WpfApp.Repositories
                 // Handle the exception and show an error message to the user
                 MessageBox.Show($"An error occurred while importing students: {ex.Message}");
             }
+        }
+
+        public void ExportGroupToDocx(string folderPath, GroupModel group, CourseModel course, List<StudentModel> students)
+        {
+            // Create a new DOCX document
+            DocumentCore docx = new DocumentCore();
+            Section section = new Section(docx);
+            docx.Sections.Add(section);
+
+            docx.Content.End.Insert("Course Name: " + course.NAME + "\nGroup Name: " + group.NAME + "\n", new CharacterFormat() { Size = 14, Bold = true });
+
+            // Add a numbered list of students
+            for (int i = 0; i < students.Count; i++)
+            {
+                docx.Content.End.Insert((i + 1).ToString() + ". " + students[i].FIRST_NAME + " " + students[i].LAST_NAME + "\n", new CharacterFormat() { Size = 12 });
+            }
+
+            // Save the document to the specified file path
+            docx.Save(folderPath, new DocxSaveOptions());
         }
     }
 }

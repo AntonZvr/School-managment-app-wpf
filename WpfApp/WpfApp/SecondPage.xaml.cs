@@ -1,8 +1,10 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using WpfApp.Repositories;
 using WpfApp.ViewModels;
 
 namespace WpfApp
@@ -160,6 +162,31 @@ namespace WpfApp
                         string filePath = openFileDialog.FileName;
 
                         viewModel.ImportGroup(groupId, filePath);
+                    }
+                }
+            }
+        }
+
+        private void ExportGroupDetailsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is GroupViewModel viewModel)
+            {
+                if (sender is Button button && button.Tag is int groupId)
+                {
+                    SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    saveFileDialog.Filter = "DOCX files (*.docx)|*.docx";                
+
+                    var group = viewModel.FindGroupById(groupId);
+                    var course = viewModel.GetCourseById(group.COURSE_ID);           
+
+                    string defaultFileName = course.NAME + "_" + group.NAME + ".docx";
+                    saveFileDialog.FileName = defaultFileName;
+
+                    if (saveFileDialog.ShowDialog() == true)
+                    {
+                        string filePath = saveFileDialog.FileName;
+
+                        viewModel.ExportGroupDetailsToDocx(groupId, filePath);
                     }
                 }
             }

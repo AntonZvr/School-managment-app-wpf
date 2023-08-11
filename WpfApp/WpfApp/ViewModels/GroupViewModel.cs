@@ -1,7 +1,9 @@
-﻿using System;
+﻿using SautinSoft.Document;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -59,6 +61,16 @@ namespace WpfApp.ViewModels
         public void LoadAllGroups() 
         {
             Groups = _groupRepository.GetAllGroups();
+        }
+
+        public CourseModel GetCourseById(int courseId)
+        {
+            return _groupRepository.FindCourseById(courseId);
+        }
+
+        public GroupModel FindGroupById(int groupId)
+        {
+            return _groupRepository.FindGroupById(groupId);
         }
 
         public event Action GroupAdded = delegate { };
@@ -133,6 +145,14 @@ namespace WpfApp.ViewModels
             _groupRepository.ImportStudents(groupId, filePath);
         }
 
-    }
+        public void ExportGroupDetailsToDocx(int groupId, string folderPath)
+        {
+            var _studentRepository = new StudentRepository();
 
+            var group = _studentRepository.FindGroupById(groupId);
+            var course = _groupRepository.FindCourseById(group.COURSE_ID);
+            var students = _studentRepository.GetStudents(groupId).ToList();
+            _groupRepository.ExportGroupToDocx(folderPath, group, course, students);
+        }
+    }
 }
