@@ -30,7 +30,7 @@ namespace WpfApp.Repositories
         }
 
         public void CreateGroup(string groupName, int courseId)
-        {          
+        {
             GroupModel newGroup = new GroupModel
             {
                 NAME = groupName, 

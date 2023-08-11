@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -73,9 +74,6 @@ namespace WpfApp.ViewModels
         public StudentViewModel(int groupId)
         {
             LoadStudents(groupId);
-
-            // Initialize the command with the update action
-           
         }
 
         public StudentViewModel() 
@@ -93,11 +91,32 @@ namespace WpfApp.ViewModels
             Students = _studentRepository.GetAllStudents();
         }
 
-        
-
         public void ChangeStudentName(int studentId, string newFirstName, string newLastName)
         {
             _studentRepository.ChangeStudentName(studentId, newFirstName, newLastName);
+        }
+
+        public void DeleteGroup(int studentId)
+        {
+            _studentRepository.DeleteGroup(studentId);
+        }
+
+        public event Action StudentAdded = delegate { };
+
+        public bool TryAddStudent(int groupId, string studentFirstName, string studentLastName)
+        {
+            GroupModel group = _studentRepository.FindGroupById(groupId);
+            if (group == null)
+            {
+                return false;
+            }
+            _studentRepository.CreateStudent(studentFirstName, studentLastName, group.GROUP_ID);
+
+            // Notify UI
+            StudentAdded.Invoke();
+
+            return true;
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

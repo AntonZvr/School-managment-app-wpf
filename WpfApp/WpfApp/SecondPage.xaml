@@ -12,7 +12,7 @@
                 <TextBox x:Name="CourseIdTextBox"/>
                 <TextBlock Text="Enter Group Name:"/>
                 <TextBox x:Name="GroupNameTextBox"/>
-                <Button Content="Add" Click="Button_Click"/>
+                <Button Content="Add new group" Click="Button_Click"/>
                 <TextBlock Text="Choose group and enter new name:"/>
                 <StackPanel Orientation="Horizontal">
                     <TextBox x:Name="GroupNewNameTextBox" Width="200" />

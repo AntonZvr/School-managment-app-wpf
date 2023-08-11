@@ -11,7 +11,12 @@
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,5,0,0">
             <StackPanel Margin="20">
-                              
+                <TextBlock Text="Enter Group Id:"/>
+                <TextBox x:Name="GroupIdTextBox"/>
+                <TextBlock Text="Enter First Name and Last Name:"/>
+                <TextBox x:Name="StudentFirstNameTextBox" Margin="0,0,0,5" />
+                <TextBox x:Name="StudentLastNameTextBox"/>
+                <Button Content="Add" Click="Button_Click"/>
                 <TextBlock Text="Choose student and enter new first name and last name:"/>
                 <StackPanel Orientation="Horizontal">
                     <TextBox x:Name="StudentNewFirstNameTextBox" Width="200" />
@@ -29,8 +34,8 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel>
-                                            <!-- The Tag property is used to pass the teacher's id to the button click event -->                        
                                             <Button Content="Change Name" Click="EditButton_Click" Tag="{Binding STUDENT_ID}"/>
+                                            <Button Content="Delete" Click="DeleteButton_Click" Tag="{Binding STUDENT_ID}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
