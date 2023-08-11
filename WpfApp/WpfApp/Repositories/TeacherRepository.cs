@@ -35,6 +35,13 @@ namespace WpfApp.Repositories
             TeacherModel teacher = _context.Teachers.FirstOrDefault(t => t.Teacher_Id == teacherId);
             if (teacher != null)
             {
+                // Count how many teachers belong to the current group of the teacher
+                int numberTeachersInGroup = _context.Teachers.Count(t => t.Group_Id == teacher.Group_Id);
+                if (numberTeachersInGroup <= 1)
+                {
+                    throw new InvalidOperationException("Cannot change the group of a teacher who is the only one in their group.");
+                }
+
                 // Check if the new group ID exists
                 GroupModel group = _context.Groups.FirstOrDefault(g => g.GROUP_ID == groupId);
                 if (group != null)
@@ -44,14 +51,8 @@ namespace WpfApp.Repositories
                     _context.SaveChanges();
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
             }
             return false;
         }
-
-
     }
 }

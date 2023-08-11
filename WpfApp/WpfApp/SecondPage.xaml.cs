@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -101,20 +102,33 @@ namespace WpfApp
                 int groupId = 0; // Default value for groupId
                 int.TryParse(textBox.Text, out groupId);
 
-                if (DataContext is GroupViewModel viewModel && viewModel.TeacherRepository.ChangeTeacherGroup(teacherId, groupId))
+                if (DataContext is GroupViewModel viewModel)
                 {
-                    MessageBox.Show("Changed!");
-                    textBox.Clear();
-                    viewModel.LoadAllTeachers();
-                }
-                else
-                {
-                    MessageBox.Show("No group with this group id");
-                    textBox.Clear();
+                    try
+                    {
+                        if (viewModel.TeacherRepository.ChangeTeacherGroup(teacherId, groupId))
+                        {
+                            MessageBox.Show("Changed!");
+                            textBox.Clear();
+                            viewModel.LoadAllTeachers();
+                        }
+                        else
+                        {
+                            MessageBox.Show("No group with this group id!");
+                            textBox.Clear();
+                        }
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        // Show the message of the exception to the user. This will be 
+                        // "Cannot change the group of a teacher who is the only one in their group."
+                        MessageBox.Show(ex.Message);
+                        textBox.Clear();
+                    }
                 }
             }
-
         }
+
         private void ExportButton_Click(object sender, RoutedEventArgs e)
         {
             if (DataContext is GroupViewModel viewModel)
