@@ -12,16 +12,22 @@ using System.Windows;
 using WpfApp.DAL;
 using SautinSoft.PdfVision;
 using Xceed.Wpf.Toolkit;
+using System.IO.Abstractions;
 
 namespace WpfApp.Repositories
 {
     public class GroupRepository : IGroupRepository
     {
         private readonly AppDbContext _context;
-        public GroupRepository()
+        private readonly IFileSystem _fileSystem;
+        public GroupRepository() : this(new AppDbContext(), new FileSystem()) { }  
+
+        public GroupRepository(AppDbContext dbContext, IFileSystem fileSystem) 
         {
-            _context = new AppDbContext();
+            _context = dbContext;
+            _fileSystem = fileSystem;
         }
+
         public ObservableCollection<GroupModel> GetGroups(int courseId)
         {
             return new ObservableCollection<GroupModel>(_context.Groups.Where(g => g.COURSE_ID == courseId).ToList());

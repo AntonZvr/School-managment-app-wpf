@@ -1,15 +1,19 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using WpfApp.DAL;
+using System.IO.Abstractions;
 
 namespace WpfApp.Repositories
 {
     public class StudentRepository : IStudentRepository
     {
         private readonly AppDbContext _context;
-        public StudentRepository()
+        private IFileSystem _fileSystem;
+        public StudentRepository() : this(new AppDbContext(), new FileSystem()) { }
+        public StudentRepository(AppDbContext dbContext, IFileSystem fileSystem)
         {
-            _context = new AppDbContext();
+            _context = dbContext;
+            _fileSystem = fileSystem;
         }
 
         public ObservableCollection<StudentModel> GetStudents(int groupId)

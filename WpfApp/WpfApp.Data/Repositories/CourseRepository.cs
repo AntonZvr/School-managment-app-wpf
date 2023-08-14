@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,9 +11,12 @@ namespace WpfApp.Repositories
     public class CourseRepository : ICourseRepository
     {
         private readonly AppDbContext _context;
-        public CourseRepository()
+        private IFileSystem _fileSystem;
+        public CourseRepository() : this(new AppDbContext(), new FileSystem()) { }
+        public CourseRepository(AppDbContext dbContext, IFileSystem fileSystem)
         {
-            _context = new AppDbContext();
+            _context = dbContext;
+            _fileSystem = fileSystem;
         }
         public List<CourseModel> GetCourses()
         {
