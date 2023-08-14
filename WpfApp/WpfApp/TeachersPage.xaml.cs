@@ -35,9 +35,9 @@ namespace WpfApp
                 string studentFirstName = "Default First Name"; // Default value
                 string studentLastName = "Default Last Name";
 
-                if (!string.IsNullOrEmpty(GroupIdTextBox.Text))
+                if (viewModel.SelectedGroup != null)
                 {
-                    groupId = int.Parse(GroupIdTextBox.Text);
+                    groupId = viewModel.SelectedGroup.GROUP_ID;
                 }
 
                 if (!string.IsNullOrEmpty(TeacherFirstNameTextBox.Text))
@@ -57,7 +57,6 @@ namespace WpfApp
                 else
                 {
                     viewModel.LoadAllTeachers();
-                    GroupIdTextBox.Clear();
                     TeacherFirstNameTextBox.Clear();
                     TeacherLastNameTextBox.Clear();
                 }

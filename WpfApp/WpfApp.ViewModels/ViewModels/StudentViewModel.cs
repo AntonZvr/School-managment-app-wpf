@@ -12,6 +12,35 @@ namespace WpfApp.ViewModels
     {
         private readonly StudentRepository _studentRepository = new StudentRepository();
 
+        private readonly GroupRepository _groupRepository = new GroupRepository();
+
+        private ObservableCollection<GroupModel> _groups;
+        public ObservableCollection<GroupModel> Groups
+        {
+            get { return _groups; }
+            set
+            {
+                _groups = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private GroupModel _selectedGroup;
+        public GroupModel SelectedGroup
+        {
+            get { return _selectedGroup; }
+            set
+            {
+                _selectedGroup = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public void LoadAllGroups()
+        {
+            Groups = new ObservableCollection<GroupModel>(_groupRepository.GetAllGroups());
+        }
+
         private ObservableCollection<StudentModel> _students;
         public ObservableCollection<StudentModel> Students
         {
@@ -78,6 +107,7 @@ namespace WpfApp.ViewModels
 
         public StudentViewModel() 
         {
+            LoadAllGroups();
             LoadAllStudents();
         }
 

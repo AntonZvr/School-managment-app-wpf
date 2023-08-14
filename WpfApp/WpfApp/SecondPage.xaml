@@ -8,8 +8,8 @@
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,20,0,0">
             <StackPanel Margin="20">
-                <TextBlock Text="Enter Course Id:"/>
-                <TextBox x:Name="CourseIdTextBox"/>
+                <TextBlock Text="Select Course:"/>
+                <ComboBox x:Name="CourseComboBox" ItemsSource="{Binding Courses}" DisplayMemberPath="NAME" SelectedItem="{Binding SelectedCourse}"/>
                 <TextBlock Text="Enter Group Name:"/>
                 <TextBox x:Name="GroupNameTextBox"/>
                 <Button Content="Add new group" Click="Button_Click"/>
@@ -19,7 +19,7 @@
                     <Button x:Name="SaveButton" Content="Save" Click="SaveButton_Click" />
                 </StackPanel>
 
-
+                
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,20,0,0">
                     <ListView ItemsSource="{Binding Groups}" Margin="0,50,0,0">
                         <ListView.View>

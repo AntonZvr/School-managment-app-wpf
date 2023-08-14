@@ -27,9 +27,9 @@ namespace WpfApp
                 int courseId = 0; // Default value for courseId
                 string groupName = "Default name"; // Default value for groupName
 
-                if (!string.IsNullOrEmpty(CourseIdTextBox.Text))
+                if (viewModel.SelectedCourse != null)
                 {
-                    courseId = int.Parse(CourseIdTextBox.Text);
+                    courseId = viewModel.SelectedCourse.COURSE_ID;
                 }
 
                 if (!string.IsNullOrEmpty(GroupNameTextBox.Text))
@@ -44,7 +44,6 @@ namespace WpfApp
                 else
                 {
                     viewModel.LoadAllGroups();
-                    CourseIdTextBox.Clear();
                     GroupNameTextBox.Clear();
                 }
             }

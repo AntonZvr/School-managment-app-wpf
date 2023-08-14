@@ -17,6 +17,35 @@ namespace WpfApp.ViewModels
     public class GroupViewModel : INotifyPropertyChanged
     {
         private readonly GroupRepository _groupRepository = new GroupRepository();
+        private readonly CourseRepository _courseRepository = new CourseRepository();
+
+        private ObservableCollection<CourseModel> _courses;
+        public ObservableCollection<CourseModel> Courses
+        {
+            get { return _courses; }
+            set
+            {
+                _courses = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private CourseModel _selectedCourse;
+        public CourseModel SelectedCourse
+        {
+            get { return _selectedCourse; }
+            set
+            {
+                _selectedCourse = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public void LoadAllCourses()
+        {
+            Courses = new ObservableCollection<CourseModel>(_courseRepository.GetCourses());
+        }
+
 
         private ObservableCollection<GroupModel> _groups;
         public ObservableCollection<GroupModel> Groups
@@ -42,6 +71,7 @@ namespace WpfApp.ViewModels
 
         public GroupViewModel()
         {
+            LoadAllCourses();
             LoadAllGroups();
             TeacherRepository = new TeacherRepository();
             LoadAllTeachers();

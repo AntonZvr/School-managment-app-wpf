@@ -12,6 +12,34 @@ namespace WpfApp.ViewModels
     {
         private readonly TeacherRepository _teacherRepository = new TeacherRepository();
         private ObservableCollection<TeacherModel> _teachers;
+        private readonly GroupRepository _groupRepository = new GroupRepository();
+
+        private ObservableCollection<GroupModel> _groups;
+        public ObservableCollection<GroupModel> Groups
+        {
+            get { return _groups; }
+            set
+            {
+                _groups = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private GroupModel _selectedGroup;
+        public GroupModel SelectedGroup
+        {
+            get { return _selectedGroup; }
+            set
+            {
+                _selectedGroup = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public void LoadAllGroups()
+        {
+            Groups = new ObservableCollection<GroupModel>(_groupRepository.GetAllGroups());
+        }
 
         protected void RaisePropertyChanged(string propertyName)
         {
@@ -30,6 +58,7 @@ namespace WpfApp.ViewModels
 
         public TeacherViewModel()
         {
+            LoadAllGroups();
             LoadAllTeachers();
         }
 
