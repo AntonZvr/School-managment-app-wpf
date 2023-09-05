@@ -93,30 +93,33 @@ namespace WpfApp
         {
             if (sender is Button button && button.Tag is int teacherId)
             {
-                // Get the parent StackPanel
-                var stackPanel = (StackPanel)button.Parent;
+                //// Get the parent StackPanel
+                //var stackPanel = (StackPanel)button.Parent;
 
-                // Find the TextBox in the StackPanel
-                var textBox = (TextBox)stackPanel.Children.OfType<TextBox>().First();
+                //// Find the TextBox in the StackPanel
+                //var textBox = (TextBox)stackPanel.Children.OfType<TextBox>().First();
 
                 // Get the new group ID from the TextBox
                 int groupId = 0; // Default value for groupId
-                int.TryParse(textBox.Text, out groupId);
 
                 if (DataContext is GroupViewModel viewModel)
                 {
                     try
                     {
+                        if (viewModel.SelectedGroup != null)
+                        {
+                            groupId = viewModel.SelectedGroup.GROUP_ID;
+                        }
                         if (viewModel.TeacherRepository.ChangeTeacherGroup(teacherId, groupId))
                         {
                             MessageBox.Show("Changed!");
-                            textBox.Clear();
+                            //textBox.Clear();
                             viewModel.LoadAllTeachers();
                         }
                         else
                         {
                             MessageBox.Show("No group with this group id!");
-                            textBox.Clear();
+                            //textBox.Clear();
                         }
                     }
                     catch (InvalidOperationException ex)
@@ -124,7 +127,7 @@ namespace WpfApp
                         // Show the message of the exception to the user. This will be 
                         // "Cannot change the group of a teacher who is the only one in their group."
                         MessageBox.Show(ex.Message);
-                        textBox.Clear();
+                        //textBox.Clear();
                     }
                 }
             }

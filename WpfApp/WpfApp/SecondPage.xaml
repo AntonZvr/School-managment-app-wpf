@@ -61,8 +61,12 @@
                                     <DataTemplate>
                                         <StackPanel>
                                             <!-- The Tag property is used to pass the teacher's id to the button click event -->
-                                            <TextBlock Text="Enter new group id for teacher:"/>
-                                            <TextBox x:Name="NewGroupIdTextBox" Width="50" />
+                                            <TextBlock Text="Select Group:"/>
+                                            <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.Groups}" 
+                                            DisplayMemberPath="NAME" 
+                                            SelectedItem="{Binding SelectedGroup}"/>
+
+
                                             <Button Content="Change Group" Click="EditTeacherGroup_Click" Tag="{Binding Teacher_Id}"/>
                                         </StackPanel>
                                     </DataTemplate>
